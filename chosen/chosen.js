@@ -59,15 +59,9 @@
       this.container = $('#' + this.container_id);
       this.container.addClass("chzn-container-" + (this.is_multiple ? "multi" : "single"));
       this.dropdown = this.container.find('div.chzn-drop').first();
-      dd_top = this.container.height();
-      dd_width = this.f_width - get_side_border_padding(this.dropdown);
-      this.dropdown.css({
-        "width": dd_width + "px",
-        "top": dd_top + "px"
-      });
+      this.dropdown_scale();
       this.search_field = this.container.find('input').first();
       this.search_results = this.container.find('ul.chzn-results').first();
-      this.search_field_scale();
       this.search_no_results = this.container.find('li.no-results').first();
       if (this.is_multiple) {
         this.search_choices = this.container.find('ul.chzn-choices').first();
@@ -75,11 +69,8 @@
       } else {
         this.search_container = this.container.find('div.chzn-search').first();
         this.selected_item = this.container.find('.chzn-single').first();
-        sf_width = dd_width - get_side_border_padding(this.search_container) - get_side_border_padding(this.search_field);
-        this.search_field.css({
-          "width": sf_width + "px"
-        });
       }
+      this.search_field_scale();
       this.results_build();
       return this.set_tab_index();
     };
@@ -236,6 +227,10 @@
           }
         }
       }
+      
+      //recalculate width
+      this.f_width = this.form_field_jq.outerWidth();
+      this.container.css('width', this.f_width);
       this.show_search_field_default();
       this.search_field_scale();
       this.search_results.html(content);
@@ -689,14 +684,27 @@
         if (w > this.f_width - 10) {
           w = this.f_width - 10;
         }
+        w = this.f_width - 10;
         this.search_field.css({
           'width': w + 'px'
         });
-        dd_top = this.container.height();
-        return this.dropdown.css({
+      } else {
+          dd_width = this.f_width - get_side_border_padding(this.dropdown);
+          sf_width = dd_width - get_side_border_padding(this.search_container) - get_side_border_padding(this.search_field);
+          this.search_field.css({
+            "width": sf_width + "px"
+          });
+          
+          this.dropdown_scale();
+      }
+    };
+    Chosen.prototype.dropdown_scale = function() {
+    	dd_top = this.container.height();
+        dd_width = this.f_width - get_side_border_padding(this.dropdown);
+        this.dropdown.css({
+          "width": dd_width + "px",
           "top": dd_top + "px"
         });
-      }
     };
     Chosen.prototype.generate_field_id = function() {
       var new_id;
