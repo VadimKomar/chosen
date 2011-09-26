@@ -237,6 +237,13 @@
       this.show_search_field_default();
       this.search_field_scale();
       this.search_results.html(content);
+      
+      //if results are lesser that 20, we hide search bar
+      if (_len <= 20) {
+    	  this.search_field.hide();
+      } else {
+    	  this.search_field.show();
+      }
       return this.parsing = false;
     };
     Chosen.prototype.result_add_group = function(group) {
