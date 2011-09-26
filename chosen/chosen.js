@@ -59,7 +59,7 @@
         container_div.html('<a href="javascript:void(0)" class="chzn-single"><span>' + this.default_text + '</span><div><b></b></div></a><div class="chzn-drop" style="left:-9000px;"><div class="chzn-search"><input type="text" autocomplete="off" /></div><ul class="chzn-results"></ul></div>');
       }
       this.form_field_jq.hide().after(container_div);
-      this.container = container_div;//$('#' + this.container_id);
+      this.container = container_div;
       this.container.addClass("chzn-container-" + (this.is_multiple ? "multi" : "single"));
       this.dropdown = this.container.find('div.chzn-drop').first();
       this.search_field = this.container.find('input').first();
@@ -270,7 +270,6 @@
     };
     
     Chosen.prototype.results_scale = function() {
-    	//return;
         //recalculate width select
         this.f_width = this.form_field_jq.outerWidth();
         this.container.css('width', this.f_width);
@@ -339,6 +338,8 @@
       this.dropdown.css({
         "left": "-9000px"
       });
+      
+      this.container.trigger('blur');
       return this.results_showing = false;
     };
     
