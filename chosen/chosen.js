@@ -12,10 +12,14 @@
 //more flexibility
 //form the jquery version. Jquery file has also been updated
     function Chosen(elmn, options) {
-      if (options == null) {
-        options = {};
-      }
-      this.options = options;
+      this.options = {
+    		  //minimum number of results to show the search bar
+    		  //if this is set to -1 we disable the search bar permanently
+    		  searchBarFrom : 20	  
+      };
+      
+      $.extend(this.options, options);
+      
       this.set_default_values();
       this.form_field = elmn;
       this.form_field_jq = $(this.form_field);
@@ -239,7 +243,7 @@
       this.search_results.html(content);
       
       //if results are lesser that 20, we hide search bar
-      if (_len <= 20) {
+      if (this.options.searchBarFrom >= 0 && _len <= this.options.searchBarFrom) {
     	  this.search_field.hide();
       } else {
     	  this.search_field.show();
